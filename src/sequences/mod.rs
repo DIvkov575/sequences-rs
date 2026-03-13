@@ -55,8 +55,7 @@ pub trait Sequence {
     fn kind(&self) -> SequenceKind;
 }
 
-pub fn generate(kind: SequenceKind, difficulty: Difficulty, rng: &mut impl Rng) -> Box<dyn Sequence> {
-    let n = difficulty.n_visible();
+pub fn generate(kind: SequenceKind, difficulty: Difficulty, n: usize, rng: &mut impl Rng) -> Box<dyn Sequence> {
     match kind {
         SequenceKind::Arithmetic  => Box::new(arithmetic::ArithmeticSeq::generate(difficulty, n, rng)),
         SequenceKind::Geometric   => Box::new(geometric::GeometricSeq::generate(difficulty, n, rng)),
