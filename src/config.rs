@@ -22,47 +22,39 @@ impl Difficulty {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TimeLimit {
     One,
-    Three,
     Five,
     Ten,
     Fifteen,
-    TwentyFive,
 }
 
 impl TimeLimit {
     pub const ALL: &'static [TimeLimit] = &[
         TimeLimit::One,
-        TimeLimit::Three,
         TimeLimit::Five,
         TimeLimit::Ten,
         TimeLimit::Fifteen,
-        TimeLimit::TwentyFive,
     ];
 
     pub fn label(&self) -> &'static str {
         match self {
-            TimeLimit::One       => "1 min",
-            TimeLimit::Three     => "3 min",
-            TimeLimit::Five      => "5 min",
-            TimeLimit::Ten       => "10 min",
-            TimeLimit::Fifteen   => "15 min",
-            TimeLimit::TwentyFive => "25 min",
+            TimeLimit::One     => "1 min",
+            TimeLimit::Five    => "5 min",
+            TimeLimit::Ten     => "10 min",
+            TimeLimit::Fifteen => "15 min",
         }
     }
 
     pub fn seconds(&self) -> u64 {
         match self {
-            TimeLimit::One        => 60,
-            TimeLimit::Three      => 180,
-            TimeLimit::Five       => 300,
-            TimeLimit::Ten        => 600,
-            TimeLimit::Fifteen    => 900,
-            TimeLimit::TwentyFive => 1500,
+            TimeLimit::One     => 60,
+            TimeLimit::Five    => 300,
+            TimeLimit::Ten     => 600,
+            TimeLimit::Fifteen => 900,
         }
     }
 }
 
-pub const SEQ_LEN_OPTIONS: &[usize] = &[3, 4, 5, 6];
+pub const SEQ_LEN_OPTIONS: &[usize] = &[5, 6, 7];
 
 pub const OPTIVER_PRESET: &[SequenceKind] = &[
     SequenceKind::Arithmetic,
@@ -95,7 +87,7 @@ impl Default for TestConfig {
         Self {
             enabled: SequenceKind::ALL.to_vec(),
             difficulty: Difficulty::Medium,
-            seq_len: 4,
+            seq_len: 6,
             time_limit: TimeLimit::Five,
         }
     }
