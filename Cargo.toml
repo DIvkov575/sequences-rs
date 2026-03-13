@@ -2,6 +2,10 @@
 name = "sequences-rs"
 version = "0.1.0"
 edition = "2024"
+description = "CLI for training number sequence recognition (Optiver/Flow Traders prep)"
+homepage = "https://github.com/DIvkov575/sequences-rs"
+repository = "https://github.com/DIvkov575/sequences-rs"
+license = "MIT"
 
 [dependencies]
 ratatui = "0.29"
