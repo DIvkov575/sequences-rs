@@ -25,6 +25,7 @@ pub enum ConfigSection {
     Length,
     TimeLimit,
     Start,
+    Stats,
 }
 
 impl ConfigSection {
@@ -34,16 +35,18 @@ impl ConfigSection {
             Self::Difficulty => Self::Length,
             Self::Length     => Self::TimeLimit,
             Self::TimeLimit  => Self::Start,
-            Self::Start      => Self::Types,
+            Self::Start      => Self::Stats,
+            Self::Stats      => Self::Types,
         }
     }
     fn prev(self) -> Self {
         match self {
-            Self::Types      => Self::Start,
+            Self::Types      => Self::Stats,
             Self::Difficulty => Self::Types,
             Self::Length     => Self::Difficulty,
             Self::TimeLimit  => Self::Length,
             Self::Start      => Self::TimeLimit,
+            Self::Stats      => Self::Start,
         }
     }
 }
@@ -98,6 +101,7 @@ pub struct App {
     // history screen
     pub history: Vec<HistoryEntry>,
     pub history_scroll: usize,
+    pub history_return: AppState,
 
     rng: SmallRng,
 }
@@ -120,6 +124,7 @@ impl App {
             session_duration: 0,
             history: history::load(),
             history_scroll: 0,
+            history_return: AppState::Results,
             rng: SmallRng::from_os_rng(),
         }
     }
@@ -233,7 +238,7 @@ impl App {
                 let cur = TimeLimit::ALL.iter().position(|t| *t == self.config.time_limit).unwrap_or(0);
                 if cur > 0 { self.config.time_limit = TimeLimit::ALL[cur - 1]; }
             }
-            ConfigSection::Start => {}
+            ConfigSection::Start | ConfigSection::Stats => {}
         }
     }
 
@@ -255,7 +260,7 @@ impl App {
                 let cur = TimeLimit::ALL.iter().position(|t| *t == self.config.time_limit).unwrap_or(0);
                 if cur + 1 < TimeLimit::ALL.len() { self.config.time_limit = TimeLimit::ALL[cur + 1]; }
             }
-            ConfigSection::Start => {}
+            ConfigSection::Start | ConfigSection::Stats => {}
         }
     }
 
@@ -289,6 +294,7 @@ impl App {
     }
 
     pub fn enter_history(&mut self) {
+        self.history_return = self.state;
         self.state = AppState::History;
         self.history_scroll = 0;
     }

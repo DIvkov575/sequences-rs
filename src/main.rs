@@ -59,6 +59,7 @@ fn run_app<B: ratatui::backend::Backend>(terminal: &mut Terminal<B>, app: &mut A
 fn handle_config(app: &mut App, code: KeyCode) {
     match code {
         KeyCode::Char('q') | KeyCode::Char('Q') => std::process::exit(0),
+        KeyCode::Char('h') | KeyCode::Char('H') => app.enter_history(),
         KeyCode::Char('o') | KeyCode::Char('O') => app.apply_optiver_preset(),
         KeyCode::Char('f') | KeyCode::Char('F') => app.apply_flow_traders_preset(),
 
@@ -77,6 +78,7 @@ fn handle_config(app: &mut App, code: KeyCode) {
                 ConfigSection::Start => {
                     if !app.config.enabled.is_empty() { app.start_testing(); }
                 }
+                ConfigSection::Stats => app.enter_history(),
             }
         }
 
@@ -127,7 +129,7 @@ fn handle_history(app: &mut App, code: KeyCode) {
     match code {
         KeyCode::Up | KeyCode::Char('k') => app.history_up(),
         KeyCode::Down | KeyCode::Char('j') => app.history_down(),
-        KeyCode::Esc | KeyCode::Char('q') | KeyCode::Char('Q') => app.state = AppState::Results,
+        KeyCode::Esc | KeyCode::Char('q') | KeyCode::Char('Q') => app.state = app.history_return,
         _ => {}
     }
 }

@@ -88,10 +88,11 @@ fn draw_configuration(f: &mut Frame, app: &App) {
         .direction(Direction::Vertical)
         .constraints([
             Constraint::Length(6),  // difficulty (3 options)
-            Constraint::Length(6),  // sequence length (4 options)
-            Constraint::Length(8),  // time limit (6 options)
+            Constraint::Length(6),  // sequence length (3 options)
+            Constraint::Length(6),  // time limit (4 options)
             Constraint::Length(4),  // presets
-            Constraint::Min(3),     // start button
+            Constraint::Length(3),  // start button
+            Constraint::Min(3),     // stats button
         ])
         .split(body[1]);
 
@@ -172,8 +173,21 @@ fn draw_configuration(f: &mut Frame, app: &App) {
         .alignment(Alignment::Center);
     f.render_widget(start_btn, right[4]);
 
+    // stats button
+    let stats_focused = app.config_section == ConfigSection::Stats;
+    let stats_style = if stats_focused {
+        Style::default().fg(Color::Black).bg(Color::Cyan).add_modifier(Modifier::BOLD)
+    } else {
+        Style::default().fg(Color::DarkGray)
+    };
+    let stats_btn = Paragraph::new("  History / Stats  ")
+        .block(Block::default().borders(Borders::ALL).border_style(section_style(stats_focused)))
+        .style(stats_style)
+        .alignment(Alignment::Center);
+    f.render_widget(stats_btn, right[5]);
+
     // help bar
-    let help = Paragraph::new("  ↑↓ navigate   Space toggle   Tab next section   Enter select/start   O/F presets   Q quit")
+    let help = Paragraph::new("  ↑↓ navigate   Space toggle   Tab next section   Enter select/start   O/F presets   H history   Q quit")
         .style(Style::default().fg(Color::DarkGray))
         .alignment(Alignment::Center);
     f.render_widget(help, outer[2]);
