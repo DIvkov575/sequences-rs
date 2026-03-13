@@ -1,7 +1,7 @@
 class SequencesRs < Formula
   desc "CLI for training number sequence recognition (Optiver/Flow Traders prep)"
   homepage "https://github.com/DIvkov575/sequences-rs"
-  url "https://github.com/DIvkov575/sequences-rs/archive/refs/tags/{{version}}.tar.gz"
+  url "https://github.com/DIvkov575/sequences-rs/archive/refs/tags/v{{version}}.tar.gz"
   sha256 "{{sha256}}"
   license "MIT"
 
